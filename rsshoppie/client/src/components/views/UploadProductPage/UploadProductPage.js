@@ -1,4 +1,23 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
+
+import {Typography, Button, Form, message, Input, Icon} from 'antd';
+import FileUpload from '../../utils/FileUpload';
+
+
+const {Title}=Typography;
+const {TextArea} = Input;
+
+
+
+const Continents=[
+    {key:1,value:'Africa'},
+    {key:2,value:'Europe'},
+    {key:3,value:'Asia'},
+    {key:4,value:'North America'},
+    {key:5,value:'South America'},
+    {key:6,value:'Australia'},
+    {key:7,value:'Antartica'}
+]
 
 function UploadProductPage() {
     
@@ -14,47 +33,57 @@ function UploadProductPage() {
         setDescValue(event.currentTarget.value);
     }
 
-    const [priceValue,setPriceValue]=useState("");
+    const [priceValue,setPriceValue]=useState(0);
 
     const onPriceChange=(event)=>{
         setPriceValue(event.currentTarget.value);
     }
 
+    const [continentValue,setcontinentValue]=useState(1);
+
+    const oncontinentValue=(event)=>{
+        setcontinentValue(event.currentTarget.value);
+    }
+
     return (
         <div style={{maxWidth:'700px',margin:'2rem auto'}}>
             <div style={{textAlign:'center',marginBottom:'2rem'}}>
-                <h2>Upload Travel Product</h2>
+                <Title level={2}>Upload Travel Product</Title>
             </div>
             
+            <FileUpload />
 
-            <form onSubmit>
+            <Form onSubmit>
 
                 <label>Title</label>
-                <input onChange={onTitleChange} value={titleValue}/>
+                <Input onChange={onTitleChange} value={titleValue}/>
                 <br/>
                 <br/>
 
                 <label>Description</label>
-                <textarea onChange={onDescChange} value={descValue}/>
+                <TextArea onChange={onDescChange} value={descValue}/>
                 <br/>
                 <br/>
 
                 <label>Price </label>
-                <input onChange={onPriceChange} value={priceValue} type="number"/>
+                <Input onChange={onPriceChange} value={priceValue} type="number"/>
 
                 <br/>
                 <br/>
-                <select>
-                    <option key value>
-
-                    </option>
+                <select onChange={oncontinentValue}>
+                    {Continents.map(item=>{
+                        return(
+                    <option key={item.key} value={item.key}>
+                        {item.value}
+                    </option>)
+                    })}
                 </select>
 
                 <br />
                 <br />
-                <button onClick>Submit</button>
+                <Button onClick>Submit</Button>
 
-            </form>
+            </Form>
         </div>
     )
 }
