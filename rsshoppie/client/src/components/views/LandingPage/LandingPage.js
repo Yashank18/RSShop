@@ -3,15 +3,25 @@ import Axios from 'axios';
 import {Icon,Row,Button, Col, Card} from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider'
+import CheckBox from './Sections/CheckBox';
 
 function LandingPage() {
 
     const [Products,setProducts]=useState([])
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(8);
-    const [PostSize, setPostSize] = useState(0)
+    const [PostSize, setPostSize] = useState(0);
+    const [Filters, setFilters] = useState({
+        continents: [],
+        price: []
+    })
 
     useEffect(() => {
+        const variables={
+            skip:Skip,
+            limit:Limit,
+
+        }
         getProduct();
     },[])
 
@@ -33,11 +43,12 @@ function LandingPage() {
         let skip =Skip+Limit;
 
         const variables={
-            skip:Skip,
+            skip:skip,
             limit:Limit,
 
         }
-        getProduct()
+        getProduct(variables)
+        setSkip(skip)
         
     }
 
@@ -50,6 +61,18 @@ function LandingPage() {
                 </Card>
             </Col>
     })
+
+    const handleFilters=(filters,category)=>{
+        
+        const newFilters = { ...Filters }
+
+        newFilters[category] = filters
+
+
+        console.log(newFilters)
+
+        setFilters(newFilters)
+    }
     return (
        <div style={{width:'75%',margin:'3rem auto'}}>
            <div style={{textAlign:'center'}}>
@@ -57,6 +80,8 @@ function LandingPage() {
            </div>
 
            {/* Fileter */}
+
+           <CheckBox handleFilters={filters=>handleFilters(filters,"continents")}/>
 
            {/* Search */}
 
